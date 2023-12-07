@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import NoteSerializer
 from .models import Note
 
+
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
@@ -23,13 +24,13 @@ def getRoutes(request):
         {
             'Endpoint': '/notes/create/',
             'method': 'POST',
-            'body': {'body': ""},
+            'body': {'body': ''},
             'description': 'Creates new note with data sent in post request'
         },
         {
             'Endpoint': '/notes/id/update/',
             'method': 'PUT',
-            'body': {'body': ""},
+            'body': {'body': ''},
             'description': 'Creates an existing note with data sent in post request'
         },
         {
@@ -41,12 +42,14 @@ def getRoutes(request):
     ]
     return Response(routes)
 
+
 @api_view(['GET'])
 def getNotes(request):
     if request.method == 'GET':
         notes = Note.objects.all().order_by('-created')
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getNote(request, pk):
@@ -57,6 +60,7 @@ def getNote(request, pk):
             return Response(serializer.data)
         except Note.DoesNotExist:
             return Response(status=404)
+
 
 @api_view(['PUT'])
 def updateNote(request, pk):
@@ -72,6 +76,7 @@ def updateNote(request, pk):
         except Note.DoesNotExist:
             return Response(status=404)
 
+
 @api_view(['DELETE'])
 def deleteNote(request, pk):
     if request.method == 'DELETE':
@@ -81,6 +86,7 @@ def deleteNote(request, pk):
             return Response('Note was deleted!')
         except Note.DoesNotExist:
             return Response(status=404)
+
 
 @api_view(['POST'])
 def createNote(request):
