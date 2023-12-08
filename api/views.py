@@ -23,13 +23,13 @@ def getRoutes(request):
         {
             'Endpoint': '/notes/create/',
             'method': 'POST',
-            'body': {'body': ""},
+            'body': {'body': ''},
             'description': 'Creates new note with data sent in post request'
         },
         {
             'Endpoint': '/notes/id/update/',
             'method': 'PUT',
-            'body': {'body': ""},
+            'body': {'body': ''},
             'description': 'Creates an existing note with data sent in post request'
         },
         {
@@ -91,3 +91,10 @@ def createNote(request):
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+@api_view(['GET'])
+def getNotesByTopic(request, topic):
+    if request.method == 'GET':
+        notes = Note.objects.filter(topic=topic).order_by('-created')
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data)
