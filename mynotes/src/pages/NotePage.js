@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams,useNavigate,Link } from 'react-router-dom'
-// import notes from '../assets/data.js'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg'
 
 const NotePage = () => {
-  let { id }  = useParams();
+  let { id } = useParams();
   let navigate = useNavigate()
   let [note, setNote] = useState({})
+
   useEffect(() => {
     let getNote = async () => {
       if (id === 'new') return
@@ -24,7 +24,7 @@ const NotePage = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({...note, 'updated': new Date()})
+      body: JSON.stringify({ ...note, 'updated': new Date() })
     })
   }
 
@@ -34,7 +34,7 @@ const NotePage = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({...note, 'updated': new Date()})
+      body: JSON.stringify({ ...note, 'updated': new Date() })
     })
   }
 
@@ -50,7 +50,7 @@ const NotePage = () => {
       deleteNote()
     } else if (id !== 'new') {
       updateNote()
-    } else if (id ==='new' && note !== null) {
+    } else if (id === 'new' && note !== null) {
       createNote()
     }
     navigate('/')
@@ -58,7 +58,7 @@ const NotePage = () => {
 
   return (
     <div className='note'>
-      <div className="note-header">
+      <div className='note-header'>
         <h3>
           <Link to='/'>
             <ArrowLeft onClick={handleSubmit} />
@@ -66,13 +66,13 @@ const NotePage = () => {
         </h3>
         {id !== 'new' ? (
           <button onClick={deleteNote}>Delete</button>
-        ):(
+        ) : (
           <button onClick={handleSubmit}>Save</button>
         )}
       </div>
-      <div className="note-body">
-        <textarea onChange={(e) => {setNote({...note, 'body':e.target.value})}} value={note.body}>  
-        </textarea>
+      <div className='note-body'>
+        <input type='text' onChange={(e) => { setNote({ ...note, 'topic': e.target.value }) }} value={note.topic} />
+        <textarea onChange={(e) => { setNote({ ...note, 'body': e.target.value }) }} value={note.body}></textarea>
       </div>
     </div>
   )
